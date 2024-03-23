@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradproj/views/subscriptions/individual.dart';
 import 'package:gradproj/views/subscriptions/organization.dart';
-import 'package:gradproj/views/trialPage/trialPage.dart';
+// import 'package:gradproj/views/trialPage/trialPage.dart';
 import 'package:gradproj/views/home/HomeView.dart';
 
 
@@ -76,7 +76,7 @@ class subscriptions extends StatelessWidget {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>individual()));},
                            child: 
                            Text(
-                           "  Individuals  ",
+                           "Individuals",
                             style: TextStyle(
                             fontSize: 25, 
                             fontWeight: FontWeight.w800, 

@@ -12,18 +12,20 @@ class homeBody extends StatelessWidget {
           padding: const EdgeInsetsDirectional.symmetric(
               vertical: 20, horizontal: 20),
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                     bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10))),
+                    bottomRight: Radius.circular(10),
+                    ),
+                    ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 Text(
@@ -34,14 +36,14 @@ class homeBody extends StatelessWidget {
                       fontSize: 80,
                       color: Colors.purple[800]),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Text(
                     "      Join millions of students and tutors to effortlessly generate your exam questions instantly",
                     style: TextStyle(
                         fontSize: 17, height: 1.7, color: Colors.purple[800])),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
               ],

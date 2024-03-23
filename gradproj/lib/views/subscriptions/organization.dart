@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradproj/widgets/centeredView/centeredView.dart';
 import 'package:gradproj/widgets/navigationBar/navigationBar.dart';
-import 'package:gradproj/views/home/HomeView.dart';
+// import 'package:gradproj/views/home/HomeView.dart';
 
 
 
