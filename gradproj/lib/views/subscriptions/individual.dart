@@ -15,7 +15,7 @@ class individual extends StatelessWidget {
       appBar: AppBar(title: navigationBar(),backgroundColor: Color.fromARGB(255, 141, 4, 141), toolbarHeight: 110,),
       body:centeredView(
       child: Container(
-        decoration: BoxDecoration( borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10), bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+        decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10), bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
         width: MediaQuery.of(context).size.width,
         child: Row(
           children: [
