@@ -28,11 +28,7 @@ class _HomeViewState extends State<HomeView> {
         child: homeBody(),
       ),
     )
-
-
-    : 
-    
-    
+    :     
     Scaffold(
       appBar: AppBar(
         title: navigationBar(),

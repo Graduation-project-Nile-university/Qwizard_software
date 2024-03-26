@@ -67,6 +67,13 @@ flutter:
   assets:
     - assets/logo.PNG
     - assets/self.jpg
+    - assets/ahmad.jpeg
+    - assets/ahmed.jpeg
+    - assets/saif.jpeg
+    - assets/zeena.jpeg
+    - assets/omar.jpeg
+    - assets/mohamed.jpeg
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

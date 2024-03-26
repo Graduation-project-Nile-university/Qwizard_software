@@ -8,58 +8,58 @@ import 'package:gradproj/views/subscriptions/subscriptions.dart';
 import 'package:gradproj/widgets/navigationBar/Nbuttons.dart';
 
 class navigationBar extends StatelessWidget {
-  const navigationBar({super.key});
+  const navigationBar({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            height: 100,
-            child: IconButton(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      height: 100.0,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeView()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeView()),
+                );
               },
               icon: Image.asset('assets/logo.png'),
             ),
-          ),
-          const SizedBox(
-            width: 120,
-          ),
-          Container(
-            child: const Nbuttons(text: 'SUBSCRIPTIONS',route: subscriptions()),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Container(
-            child: const Nbuttons(text: 'Test',route: MLModel()),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Container(
-            child:  Nbuttons(text: 'ABOUT US',route: aboutUs())
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Container(
-            child: const Nbuttons(text: 'SIGN UP',route: signUp()
-          ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Container(
-            child: const Nbuttons(text: 'LOG IN',route: logIn()
-          ),
-          )
-        ],
+            SizedBox(width: 20.0),
+            Row(
+              children: [
+                Nbuttons(
+                  text: 'SUBSCRIPTIONS',
+                  route: subscriptions(),
+                ),
+                SizedBox(width: 10.0),
+                Nbuttons(
+                  text: 'Test',
+                  route: MLModel(),
+                ),
+                SizedBox(width: 10.0),
+                Nbuttons(
+                  text: 'ABOUT US',
+                  route: aboutUs(),
+                ),
+                SizedBox(width: 10.0),
+                Nbuttons(
+                  text: 'SIGN UP',
+                  route: signUp(),
+                ),
+                SizedBox(width: 10.0),
+                Nbuttons(
+                  text: 'LOG IN',
+                  route: logIn(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
