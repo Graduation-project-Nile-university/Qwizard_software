@@ -4,7 +4,7 @@ import 'package:gradproj/widgets/centeredView/centeredView.dart';
 import 'package:gradproj/widgets/navigationBar/navigationBar.dart';
 
 Future generate_QA(String context) async {
-  var data = await Dio().post("http://192.168.1.6:8000/generate_QA",
+  var data = await Dio().post("http://10.2.149.87:8000/generate_QA",
       data: {"context": context},
       options: Options(headers: {"Access-Control-Allow-Origin": "*"}));
   return data.data;
@@ -41,7 +41,7 @@ class _MLModelState extends State<MLModel> {
               children: [
                 TextField(
                   controller: contextText,
-                  maxLines: 10,
+                  maxLines: 7,
                 ),
                 isLoading
                     ? CircularProgressIndicator()
