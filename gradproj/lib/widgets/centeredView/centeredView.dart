@@ -18,11 +18,15 @@ class centeredView extends StatelessWidget {
               ,tileMode: TileMode.repeated
             ),
           ),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 60),
+      // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 60),
       alignment: Alignment.topCenter,
-      child: ConstrainedBox(constraints: BoxConstraints(maxWidth: 1200,),
+      // child: ConstrainedBox(constraints: BoxConstraints(
+      // maxHeight: MediaQuery.of(context).size.height,
+      // maxWidth: MediaQuery.of(context).size.width),
       child: child,
-      ),
+      // ),
+      
+      // )
     );
   }
 }

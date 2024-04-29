@@ -1,8 +1,8 @@
 import pymongo.collection
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from backend.API.functions import Functions
-from backend.API.schemas import UserSignup, User
+from functions import Functions
+from schemas import UserSignup, User
 import pymongo
 import asyncio
 
@@ -15,11 +15,11 @@ class Database:
         except Exception:
             print("Error")
     def get_users(self) -> pymongo.collection.Collection:
-        return self.database["Quizard"]['Users']
+        return self.database["Quizard"]['Users'].find()
     async def get_documents(self):
-        return self.database["Quizard"]['Documents']
+        return self.database["Quizard"]['Documents'].find()
     async def get_history(self):
-        return self.database["Quizard"]['History']
+        return self.database["Quizard"]['History'].find()
 
     async def sign_up(self, userSignup: UserSignup) -> bool:
         userSignup.password = Functions.hashPassword(userSignup.password)
@@ -27,19 +27,19 @@ class Database:
             self.database["Quizard"]["Users"].insert_one(userSignup.dict())
             return Functions.getToken(userSignup.dict())
         except Exception as e:
-            raise Exception("Can't add user, try again later")
+            raise Exception("Can't add user, try again later ")
     
     async def log_in(self, userLogin:User):
-        userLogin.password = Functions.hashPassword(userLogin.password)
         try:
-            userData = self.database["Quizard"]["Users"].find_one(userLogin.dict())
-            if userData == None:
-                raise Exception("Error user email or password")       
-            return {"token":Functions.getToken(userLogin.dict()), "user_data":userData.__dict__}
+            for user in self.get_users():
+                if Functions.verifyPassword(userLogin.password, user["password"]):
+                    user["_id"] = str(user["_id"])
+                    return {"token":Functions.getToken(userLogin.dict()), "user_data":user}
+            raise Exception("Wrong user email or password ")       
         except Exception as e:
             raise e  
 
-    async def forget_password(self, email:str, newPassword:str):
+    async def change_password(self, email:str, newPassword:str):
         if Functions.isPasswordStrong(newPassword):
             users = self.get_users()
             user = users.find_one({"email":email})
@@ -48,6 +48,18 @@ class Database:
                 return True
             raise Exception("E-mail doesn't exist")
         raise Exception("Password is weak")
+     
+    async def is_email_exists(self, email:str) -> bool:
+        for user in self.get_users():
+            if user["email"] == email:
+                return True
+        return False
 
+    async def forget_password(self, email:str):
+        if await self.is_email_exists(email):
+            otp = Functions.forgotPasswordEmail(email)
+            return otp
+        else:
+            raise Exception("There is no user exists with this email")
 
 database = Database() #initialize database
