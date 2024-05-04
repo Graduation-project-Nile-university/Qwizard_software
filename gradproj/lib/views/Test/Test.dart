@@ -2,6 +2,11 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:gradproj/views/home/drwr.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gradproj/bloc/cubit.dart';
+import 'package:gradproj/bloc/states.dart';
+
 
 class Test extends StatefulWidget {
   Test({Key? key}) : super(key: key);
@@ -33,7 +38,6 @@ class _TestState extends State<Test> {
       pickedFileBytes = result.files.first.bytes;
       _fileName = result.files.first.name;
       _fileSize = result.files.first.size;
-      print('The PDF is open successfully');
       setState(() {
         isPdfRead = true;
       });
@@ -46,47 +50,75 @@ class _TestState extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
+      appBar: AppBar(
+                title: QuizardCubit.USERTOKEN == null
+                    ? Text("")
+                    : Text("Welcome, ${QuizardCubit.USERNAME}"),
+                backgroundColor: Color.fromARGB(255, 141, 4, 141),
+              ),
+              drawer: const Drwr(),
+              
+      backgroundColor:Color.fromARGB(255, 141, 4, 141), 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: isLoading
-                ? CircularProgressIndicator()
-                : TextButton(
-                    onPressed: () {
-                      pickFile();
-                    },
-                    child: Text('Pick PDF File'),
-                  ),
+          Container( 
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: isLoading
+                  ? CircularProgressIndicator()
+                  : TextButton(
+                      onPressed: () {
+                        pickFile();
+                      },
+                      child: Text(
+                        pickedFileBytes != null ? 'Change File' : 'Pick PDF File',
+                        style: TextStyle(color: Colors.black), 
+                      ),
+                    ),
+            ),
           ),
+          SizedBox(height: 20), 
           if (pickedFileBytes != null)
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'File Name: $_fileName',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'File Size: ${(_fileSize! / 1024).toStringAsFixed(2)} KB',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
+              child: Container( 
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'File Name: $_fileName',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'File Size: ${(_fileSize! / 1024).toStringAsFixed(2)} KB',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
               ),
             ),
+          SizedBox(height: 20),
           Visibility(
             visible: isPdfRead,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
+            child: Container( 
+              margin: EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(
-                onPressed: () {
-                  print('Generate button clicked');
-                },
+                onPressed: () {},
                 child: Text('Generate'),
               ),
             ),
@@ -96,3 +128,4 @@ class _TestState extends State<Test> {
     );
   }
 }
+
