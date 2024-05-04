@@ -50,7 +50,7 @@ Future<void> main() async {
                     }
                     return Center(child: CircularProgressIndicator());
                   })
-              : LogIn()))
+              : HomeView()))
               );
 }
 
