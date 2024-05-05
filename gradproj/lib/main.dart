@@ -10,6 +10,7 @@ import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/views/logIn/forgetPasswordScreens/changePassword.dart';
 import 'package:gradproj/views/logIn/forgetPasswordScreens/otpScreen.dart';
 import 'package:gradproj/views/logIn/logIn.dart';
+import 'package:gradproj/views/profile/profile.dart';
 import 'package:gradproj/views/signUp/signUp.dart';
 import 'package:gradproj/views/subscriptions/subscriptions.dart';
 
@@ -31,7 +32,8 @@ Future<void> main() async {
             "/settings": (context) => Settings(),
             "/changepassword": (context) => ChangePassword(),
             "/otpscreen": (context) => OTP_Screen(),
-            "/Test":(context) => Test()
+            "/Test":(context) => Test(),
+            "/profile":(context) => profile(),
           },
           title: 'Quizard',
           theme: ThemeData(
@@ -50,7 +52,7 @@ Future<void> main() async {
                     }
                     return Center(child: CircularProgressIndicator());
                   })
-              : LogIn()))
+              : HomeView()))
               );
 }
 

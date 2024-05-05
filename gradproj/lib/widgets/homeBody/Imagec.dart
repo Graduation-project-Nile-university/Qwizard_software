@@ -3,16 +3,18 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 
 final List<String> imgList = [
-  'assets/self.jpg',
-  'assets/self.jpg',
-  'assets/self.jpg',
-  'assets/self.jpg',
-  'assets/self.jpg'
+  'assets/logo.PNG',
+  'assets/omar.jpeg',
+  'assets/ahmed.jpeg',
+  'assets/ahmad.jpeg',
+  'assets/saif.jpeg',
+  'assets/zeena.jpeg',
+  'assets/mohamed.jpeg',
 ];
 
 final List<Widget> imageSliders = imgList
     .map((item) =>  Container(
-            margin: const EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(6.0),
             child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                 child: Stack(

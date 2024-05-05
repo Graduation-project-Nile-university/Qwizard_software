@@ -72,6 +72,17 @@ class Drwr extends StatelessWidget {
           ListTile(
             title: Row(
               children: [
+                Icon(Icons.person),
+                const Text('  Profile'),
+              ],
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, "/profile");
+            },
+          ),
+          ListTile(
+            title: Row(
+              children: [
                 Icon(Icons.generating_tokens),
                 const Text('  Test'),
               ],
@@ -80,6 +91,7 @@ class Drwr extends StatelessWidget {
               Navigator.pushNamed(context, "/Test");
             },
           ),
+
           BlocBuilder<QuizardCubit, States>(builder: (context, state) {
             return ListTile(
               title: const Row(

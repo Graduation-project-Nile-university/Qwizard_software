@@ -3,11 +3,12 @@ import 'package:gradproj/views/Test/Test.dart';
 import 'package:gradproj/views/aboutUs/aboutUs.dart';
 import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/views/logIn/logIn.dart';
+import 'package:gradproj/views/profile/profile.dart';
 import 'package:gradproj/views/signUp/signUp.dart';
 import 'package:gradproj/views/subscriptions/subscriptions.dart';
 import 'package:gradproj/widgets/navigationBar/Nbuttons.dart';
 import 'package:gradproj/views/Test/Test.dart';
-
+import 'package:gradproj/views/profile/profile.dart';
 
 class navigationBar extends StatelessWidget {
   const navigationBar({Key? key});
@@ -63,6 +64,12 @@ class navigationBar extends StatelessWidget {
                   route: Test(),
                 ),
                 SizedBox(width: 10.0),
+                Nbuttons(
+                  text: 'PROFILE',
+                  route: profile(),
+                ),
+                SizedBox(width: 10.0),
+                
               ],
             ),
           ],
