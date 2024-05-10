@@ -110,7 +110,7 @@ class _TestState extends State<Test> {
                           style: TextStyle(fontSize: 18),
                         ),
                         SizedBox(height: 20),
-                        Text('Select File Types:', style: TextStyle(fontSize: 18)),
+                        Text('Select Question Types:', style: TextStyle(fontSize: 18)),
                         SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -158,7 +158,6 @@ class _TestState extends State<Test> {
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Generate logic here
                   },
                   child: Text('Generate'),
                 ),
