@@ -89,11 +89,21 @@ class AuthenticationCubit extends QuizardCubit {
     return response;
   }
 
+  Future<Response> changePasssword(String email, String newPassword) async {
+    var response = await Dio().post("$BASEURL/authentication/changePassword",
+        data: {"email": email, "new_password": newPassword},
+        options: Options(headers: {
+          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
+        }));
+    return response;
+  }
+
   Future<void> signOut() async {
     await QuizardCubit.storage.deleteAll().then((value) {
       QuizardCubit.USEREMAIL = null;
       QuizardCubit.USERNAME = null;
       QuizardCubit.USERTOKEN = null;
     });
+    print(await QuizardCubit.storage.containsKey(key: "token"));
   }
 }

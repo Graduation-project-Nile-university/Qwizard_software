@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproj/bloc/cubit.dart';
 import 'package:gradproj/bloc/states.dart';
+import 'package:gradproj/components/shared.dart';
 import 'package:gradproj/views/home/drwr.dart';
 import 'package:gradproj/widgets/navigationBar/navigationBar.dart';
 import 'package:gradproj/widgets/centeredView/centeredView.dart';
@@ -24,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
                 title: QuizardCubit.USERTOKEN == null
                     ? Text("")
                     : Text("Welcome, ${QuizardCubit.USERNAME}"),
-                backgroundColor: Color.fromARGB(255, 141, 4, 141),
+                backgroundColor: themeData.primaryColor,
               ),
               drawer: const Drwr(),
               body: const centeredView(

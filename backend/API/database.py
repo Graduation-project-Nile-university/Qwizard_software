@@ -14,12 +14,12 @@ class Database:
             print("Database has been initialized")
         except Exception:
             print("Error")
-    def get_users(self) -> pymongo.collection.Collection:
-        return self.database["Quizard"]['Users'].find()
+    def get_users(self):
+        return self.database["Quizard"]['Users']
     async def get_documents(self):
-        return self.database["Quizard"]['Documents'].find()
+        return self.database["Quizard"]['Documents']
     async def get_history(self):
-        return self.database["Quizard"]['History'].find()
+        return self.database["Quizard"]['History']
 
     async def sign_up(self, userSignup: UserSignup) -> bool:
         userSignup.password = Functions.hashPassword(userSignup.password)
@@ -31,7 +31,7 @@ class Database:
     
     async def log_in(self, userLogin:User):
         try:
-            for user in self.get_users():
+            for user in self.get_users().find():
                 if Functions.verifyPassword(userLogin.password, user["password"]):
                     user["_id"] = str(user["_id"])
                     return {"token":Functions.getToken(userLogin.dict()), "user_data":user}
@@ -50,7 +50,7 @@ class Database:
         raise Exception("Password is weak")
      
     async def is_email_exists(self, email:str) -> bool:
-        for user in self.get_users():
+        for user in self.get_users().find():
             if user["email"] == email:
                 return True
         return False

@@ -14,7 +14,6 @@ import 'package:gradproj/views/profile/profile.dart';
 import 'package:gradproj/views/signUp/signUp.dart';
 import 'package:gradproj/views/subscriptions/subscriptions.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiBlocProvider(
@@ -32,8 +31,8 @@ Future<void> main() async {
             "/settings": (context) => Settings(),
             "/changepassword": (context) => ChangePassword(),
             "/otpscreen": (context) => OTP_Screen(),
-            "/Test":(context) => Test(),
-            "/profile":(context) => profile(),
+            "/Test": (context) => Test(),
+            "/profile": (context) => profile(),
           },
           title: 'Quizard',
           theme: ThemeData(
@@ -46,14 +45,12 @@ Future<void> main() async {
               ? FutureBuilder(
                   future: getUserData(),
                   builder: (context, snapshot) {
-                    print(snapshot.hasData);
                     if (snapshot.hasData) {
                       return HomeView();
                     }
                     return Center(child: CircularProgressIndicator());
                   })
-              : HomeView()))
-              );
+              : HomeView())));
 }
 
 Future<bool> isSignedIn() async {

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/views/profile/profile.dart';
-import 'package:gradproj/widgets/centeredView/centeredView.dart';
 import 'package:gradproj/views/home/drwr.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproj/bloc/cubit.dart';
-import 'package:gradproj/bloc/states.dart';
-import 'package:gradproj/widgets/navigationBar/navigationBar.dart';
 
 class profileEdit extends StatelessWidget {
   bool isObscurePassword = true;
@@ -17,7 +12,8 @@ class profileEdit extends StatelessWidget {
         title: QuizardCubit.USERTOKEN == null
             ? Text(
                 "Edit profile",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               )
             : Text("Welcome, ${QuizardCubit.USERNAME}"),
         backgroundColor: Color.fromARGB(255, 141, 4, 141),
@@ -54,7 +50,8 @@ class profileEdit extends StatelessWidget {
                     ),
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 50),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
                     ),
                   ),
                   ElevatedButton(
@@ -75,9 +72,10 @@ class profileEdit extends StatelessWidget {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 141, 4, 141),
+                      // primary: Color.fromARGB(255, 141, 4, 141),
                       padding: EdgeInsets.symmetric(horizontal: 50),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
                     ),
                   ),
                 ],
@@ -89,7 +87,8 @@ class profileEdit extends StatelessWidget {
     );
   }
 
-  Widget buildTextField(String labelText, String placeholder, bool isPasswordTextField) {
+  Widget buildTextField(
+      String labelText, String placeholder, bool isPasswordTextField) {
     return Padding(
       padding: EdgeInsets.only(bottom: 30),
       child: TextField(
@@ -106,7 +105,8 @@ class profileEdit extends StatelessWidget {
             border: OutlineInputBorder(),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: placeholder,
-            hintStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey)),
+            hintStyle: TextStyle(
+                fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey)),
       ),
     );
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproj/bloc/cubit.dart';
 import 'package:gradproj/bloc/states.dart';
-
+import 'package:gradproj/components/shared.dart';
+import 'package:gradproj/main.dart';
 
 class Drwr extends StatelessWidget {
   const Drwr({super.key});
@@ -10,116 +12,188 @@ class Drwr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      backgroundColor: Colors.white,
+      child: Column(
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 141, 4, 141),
-            ),
-            child: Text(
-              'Menu',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
-            ),
-          ),
-          ListTile(
-            title: Row(
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
               children: [
-                Icon(Icons.home),
-                const Text('  Home'),
-              ],
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, "/home");
-            },
-          ),
-          ListTile(
-            title: Row(
-              children: [
-                Icon(Icons.subscriptions),
-                const Text('  Subscriptions'),
-              ],
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, "/subscriptions");
-            },
-          ),
-          ListTile(
-            title: Row(
-              children: [
-                Icon(Icons.people),
-                const Text('  About Us'),
-              ],
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, "/aboutus");
-            },
-          ),
-          ListTile(
-            title: Row(
-              children: [
-                Icon(Icons.settings),
-                const Text('  Settings'),
-              ],
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, "/settings");
-            },
-          ),
-          ListTile(
-            title: Row(
-              children: [
-                Icon(Icons.person),
-                const Text('  Profile'),
-              ],
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, "/profile");
-            },
-          ),
-          ListTile(
-            title: Row(
-              children: [
-                Icon(Icons.generating_tokens),
-                const Text('  Test'),
-              ],
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, "/Test");
-            },
-          ),
-
-          BlocBuilder<QuizardCubit, States>(builder: (context, state) {
-            return ListTile(
-              title: const Row(
-                children: [
-                  Icon(
-                    Icons.logout,
-                    color: Colors.red,
+                DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Image.asset("assets/logo.PNG")),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Icon(Icons.home),
+                      const Text('  Home'),
+                    ],
                   ),
-                  Text(
-                    '  Sign Out',
-                    style: TextStyle(color: Colors.red),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/home");
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Icon(Icons.subscriptions),
+                      const Text('  Subscriptions'),
+                    ],
                   ),
-                ],
-              ),
-              onTap: () async {
-                await AuthenticationCubit.GET(context)
-                    .signOut()
-                    .then((value) => Navigator.pushNamedAndRemoveUntil(
-                        context, "/login", (route) => false))
-                    .catchError((onError) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("${onError}"),
-                    backgroundColor: Colors.red,
-                  ));
-                });
-              },
-            );
-          })
+                  onTap: () {
+                    Navigator.pushNamed(context, "/subscriptions");
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Icon(Icons.people),
+                      const Text('  About Us'),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/aboutus");
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Icon(Icons.settings),
+                      const Text('  Settings'),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/settings");
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Icon(Icons.generating_tokens),
+                      const Text('  Test'),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/Test");
+                  },
+                ),
+                FutureBuilder(
+                    future: isSignedIn(),
+                    builder: (context, ss) {
+                      if (ss.data == true) {}
+                      return Container();
+                    })
+              ],
+            ),
+          ),
+          FutureBuilder(
+              future: isSignedIn(),
+              builder: (context, ss) {
+                if (ss.hasData) {
+                  if (ss.data == false) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: 46,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/signup");
+                              },
+                              child: Text(
+                                "Sign Up",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      themeData.primaryColor)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 46,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/login");
+                              },
+                              child: Text(
+                                "Log In",
+                                style: TextStyle(color: themeData.primaryColor),
+                              ),
+                              style: ButtonStyle(
+                                  shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          side: BorderSide(
+                                              width: 3,
+                                              color: themeData.primaryColor))),
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(Colors.white)),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  } else {
+                    return BlocBuilder<QuizardCubit, States>(
+                        builder: (context, state) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Icon(Icons.person),
+                                const Text('  Profile'),
+                              ],
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(context, "/profile");
+                            },
+                          ),
+                          ListTile(
+                            title: const Row(
+                              children: [
+                                Icon(
+                                  Icons.logout,
+                                  color: Colors.red,
+                                ),
+                                Text(
+                                  '  Sign Out',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ],
+                            ),
+                            onTap: () async {
+                              await AuthenticationCubit.GET(context)
+                                  .signOut()
+                                  .then((value) =>
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, "/login", (route) => false))
+                                  .catchError((onError) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text("${onError}"),
+                                  backgroundColor: Colors.red,
+                                ));
+                              });
+                            },
+                          ),
+                        ],
+                      );
+                    });
+                  }
+                } else {
+                  return CircularProgressIndicator();
+                }
+              })
         ],
       ),
     );

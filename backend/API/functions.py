@@ -27,7 +27,7 @@ class Functions:
         return jwt.decode(token, key="Quizard2024",algorithms=["HS256"])
     
     def forgotPasswordEmail(sendTo: str):
-        otp = random.randrange(1000, 9999)
+        otp = random.randrange(100000, 999999)
 
         message = MIMEMultipart()
 
@@ -48,3 +48,5 @@ class Functions:
         server.login("quizard2024@gmail.com", "cbqljpkciohdbzne")
         server.sendmail("Quizard", sendTo, message.as_string())
         return str(otp)
+    
+Functions.forgotPasswordEmail("saifelbob2002@gmail.com")
