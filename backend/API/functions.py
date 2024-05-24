@@ -5,6 +5,10 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
 import smtplib
+from base64 import b64decode
+import PIL.Image, io
+import re
+import google.generativeai as genai
 
 context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -49,4 +53,11 @@ class Functions:
         server.sendmail("Quizard", sendTo, message.as_string())
         return str(otp)
     
-Functions.forgotPasswordEmail("saifelbob2002@gmail.com")
+    def convert_image_to_text(image_data:str):
+        processed_image_data = re.sub("(data:image/png;base64,\n)|(data:image/jpeg;base64,\n)|(data:image/jpg;base64,\n)","", image_data)
+        image_bytes = b64decode(processed_image_data)
+        image = PIL.Image.open(io.BytesIO(image_bytes))
+        genai.configure(api_key="AIzaSyC0X-qg7ln_KHwEI8nvKlm9mjNchQIDS6k")
+        model = genai.GenerativeModel("gemini-pro-vision")
+        description = model.generate_content(image).text
+        return description
