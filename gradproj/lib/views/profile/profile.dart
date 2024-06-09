@@ -22,62 +22,98 @@ class profile extends StatelessWidget {
       ),
       drawer: const Drwr(),
       body: centeredView(
-        child: Container(
-            padding: EdgeInsets.only(left: 15, top: 20, right: 15),
-            child: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
-              child: ListView(children: [
-                Text(
-                  "Name",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: ListView(
+              children: [
+                SizedBox(height: 20),
+                ProfileInfoItem(
+                  label: "Name",
+                  value: "", // Replace with dynamic data
                 ),
-                SizedBox(
-                  height: 50,
+                SizedBox(height: 20),
+                ProfileInfoItem(
+                  label: "Phone number",
+                  value: "",
                 ),
-                Text("Phone number",
+                SizedBox(height: 20),
+                ProfileInfoItem(
+                  label: "Email",
+                  value: "", // Replace with dynamic data
+                ),
+                SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => profileEdit()),
+                    );
+                  },
+                  child: Text(
+                    "Edit",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                SizedBox(
-                  height: 50,
-                ),
-                Text("Email",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                SizedBox(
-                  height: 70,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => profileEdit()));
-                      },
-                      child: Text(
-                        "Edit",
-                        style: TextStyle(
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          color: Colors.white,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          // primary: Color.fromARGB(255, 141, 4, 141),
-                          padding: EdgeInsets.symmetric(horizontal: 50),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20))),
-                    )
-                  ],
+                      fontSize: 16,
+                      letterSpacing: 1.2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
                 )
-              ]),
-            )),
+              ],
+            ),
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class ProfileInfoItem extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const ProfileInfoItem({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(
+          value,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 16,
+          ),
+        ),
+        Divider(
+          color: Color.fromARGB(255, 118, 118, 118),
+          height: 30,
+          thickness: 1,
+        ),
+      ],
     );
   }
 }

@@ -18,30 +18,14 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final swidth = MediaQuery.of(context).size.width;
-    return swidth < 850
-        ? BlocBuilder<AuthenticationCubit, States>(builder: (context, states) {
-            return Scaffold(
-              appBar: AppBar(
-                title: QuizardCubit.USERTOKEN == null
-                    ? Text("")
-                    : Text("Welcome, ${QuizardCubit.USERNAME}"),
-                backgroundColor: themeData.primaryColor,
-              ),
-              drawer: const Drwr(),
-              body: const centeredView(
-                child: homeBody(),
-              ),
-            );
-          })
-        : Scaffold(
-            appBar: AppBar(
-              title: navigationBar(),
-              backgroundColor: Color.fromARGB(255, 141, 4, 141),
-              toolbarHeight: 110,
-            ),
-            body: const centeredView(
-              child: homeBody(),
-            ),
-          );
+    return BlocBuilder<AuthenticationCubit, States>(builder: (context, states) {
+      return Scaffold(
+        appBar: quizardAppBar(context),
+        drawer: swidth < 800 ? const Drwr() : null,
+        body: const centeredView(
+          child: homeBody(),
+        ),
+      );
+    });
   }
 }

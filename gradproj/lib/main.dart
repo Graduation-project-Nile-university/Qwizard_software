@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproj/bloc/cubit.dart';
 import 'package:gradproj/views/Settings/settings.dart';
-import 'package:gradproj/views/Test/Test.dart';
+import 'package:gradproj/views/Ai/Test.dart';
 import 'package:gradproj/views/aboutUs/aboutUs.dart';
 import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/views/logIn/forgetPasswordScreens/changePassword.dart';

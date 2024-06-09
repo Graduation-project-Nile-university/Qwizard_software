@@ -27,7 +27,10 @@ class Drwr extends StatelessWidget {
                 ListTile(
                   title: Row(
                     children: [
-                      Icon(Icons.home),
+                      Icon(
+                        Icons.home,
+                        color: themeData.primaryColor,
+                      ),
                       const Text('  Home'),
                     ],
                   ),
@@ -38,7 +41,10 @@ class Drwr extends StatelessWidget {
                 ListTile(
                   title: Row(
                     children: [
-                      Icon(Icons.subscriptions),
+                      Icon(
+                        Icons.subscriptions,
+                        color: themeData.primaryColor,
+                      ),
                       const Text('  Subscriptions'),
                     ],
                   ),
@@ -49,7 +55,10 @@ class Drwr extends StatelessWidget {
                 ListTile(
                   title: Row(
                     children: [
-                      Icon(Icons.people),
+                      Icon(
+                        Icons.people,
+                        color: themeData.primaryColor,
+                      ),
                       const Text('  About Us'),
                     ],
                   ),
@@ -60,7 +69,10 @@ class Drwr extends StatelessWidget {
                 ListTile(
                   title: Row(
                     children: [
-                      Icon(Icons.settings),
+                      Icon(
+                        Icons.settings,
+                        color: themeData.primaryColor,
+                      ),
                       const Text('  Settings'),
                     ],
                   ),
@@ -71,7 +83,10 @@ class Drwr extends StatelessWidget {
                 ListTile(
                   title: Row(
                     children: [
-                      Icon(Icons.generating_tokens),
+                      Icon(
+                        Icons.generating_tokens,
+                        color: themeData.primaryColor,
+                      ),
                       const Text('  Test'),
                     ],
                   ),

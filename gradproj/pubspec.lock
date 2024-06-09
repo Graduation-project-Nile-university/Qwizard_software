@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      sha256: "55d7b444feb71301ef6b8838dbc1ae02e63dd48c8773f3810ff53bb1e2945b32"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.4+1"
   crypto:
     dependency: transitive
     description:
@@ -133,10 +141,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: f9245fc33aeba9e0b938d7f3785f10b7a7230e05b8fc40f5a6a8342d7899e391
+      sha256: "29c90806ac5f5fb896547720b73b17ee9aed9bba540dc5d91fe29f8c5745b10a"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.4"
+    version: "8.0.3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -653,14 +661,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "13.0.0"
+  web:
+    dependency: transitive
+    description:
+      name: web
+      sha256: "97da13628db363c635202ad97068d47c5b8aa555808e7a9411963c533b449b27"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
   win32:
     dependency: transitive
     description:
       name: win32
-      sha256: "350a11abd2d1d97e0cc7a28a81b781c08002aa2864d9e3f192ca0ffa18b06ed3"
+      sha256: "464f5674532865248444b4c3daca12bd9bf2d7c47f759ce2617986e7229494a8"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.9"
+    version: "5.2.0"
   win32_registry:
     dependency: transitive
     description:
@@ -686,5 +702,5 @@ packages:
     source: hosted
     version: "6.3.0"
 sdks:
-  dart: ">=3.2.0-0 <4.0.0"
+  dart: ">=3.3.0 <4.0.0"
   flutter: ">=3.10.0"

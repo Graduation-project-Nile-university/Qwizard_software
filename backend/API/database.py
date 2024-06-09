@@ -12,8 +12,8 @@ class Database:
         try:
             self.database = MongoClient(uri, server_api=ServerApi('1'))
             print("Database has been initialized")
-        except Exception:
-            print("Error")
+        except Exception as error:
+            print(error)
     def get_users(self):
         return self.database["Quizard"]['Users']
     async def get_documents(self):

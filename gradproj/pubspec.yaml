@@ -29,7 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   syncfusion_flutter_pdfviewer: 
-  file_picker: 
+  file_picker: ^8.0.3
   stroke_text: any
   flutter_bloc: ^8.1.5
   bloc:
@@ -71,14 +71,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/logo.PNG
-    - assets/self.jpg
-    - assets/ahmad.jpeg
-    - assets/ahmed.jpeg
-    - assets/saif.jpeg
-    - assets/zeena.jpeg
-    - assets/omar.jpeg
-    - assets/mohamed.jpeg
+    - assets/
 
   #   - images/a_dot_ham.jpeg
 

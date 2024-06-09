@@ -212,9 +212,6 @@ class LogIn extends StatelessWidget {
                                                                           .text);
                                                             }).catchError(
                                                                     (onError) {
-                                                              print(onError!
-                                                                  .response
-                                                                  .data);
                                                               ScaffoldMessenger
                                                                       .of(
                                                                           context)
