@@ -281,6 +281,7 @@ class LogIn extends StatelessWidget {
                                             .then((value) {
                                           Navigator.pushNamed(context, "/home");
                                         }).catchError((onError) {
+                                          print(onError);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(
                                                   backgroundColor: Colors.red,

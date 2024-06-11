@@ -23,7 +23,7 @@ class Drwr extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                     ),
-                    child: Image.asset("assets/logo.PNG")),
+                    child: Image.asset("quizard".imageAssetPng())),
                 ListTile(
                   title: Row(
                     children: [
@@ -87,7 +87,7 @@ class Drwr extends StatelessWidget {
                         Icons.generating_tokens,
                         color: themeData.primaryColor,
                       ),
-                      const Text('  Test'),
+                      const Text('  Generate Exams'),
                     ],
                   ),
                   onTap: () {
@@ -124,7 +124,7 @@ class Drwr extends StatelessWidget {
                                 style: TextStyle(color: Colors.white),
                               ),
                               style: ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: MaterialStateProperty.all(
                                       themeData.primaryColor)),
                             ),
                           ),
@@ -165,7 +165,10 @@ class Drwr extends StatelessWidget {
                           ListTile(
                             title: Row(
                               children: [
-                                Icon(Icons.person),
+                                Icon(
+                                  Icons.person,
+                                  color: themeData.primaryColor,
+                                ),
                                 const Text('  Profile'),
                               ],
                             ),

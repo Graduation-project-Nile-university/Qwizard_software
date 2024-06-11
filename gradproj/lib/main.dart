@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproj/bloc/cubit.dart';
 import 'package:gradproj/views/Settings/settings.dart';
-import 'package:gradproj/views/Ai/Test.dart';
+import 'package:gradproj/views/Ai/LLM.dart';
 import 'package:gradproj/views/aboutUs/aboutUs.dart';
 import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/views/logIn/forgetPasswordScreens/changePassword.dart';
@@ -20,6 +20,7 @@ Future<void> main() async {
       providers: [
         BlocProvider(create: (context) => QuizardCubit()),
         BlocProvider(create: (context) => AuthenticationCubit()),
+        BlocProvider(create: (context) => LLMModelCubit())
       ],
       child: MaterialApp(
           routes: {
@@ -31,7 +32,7 @@ Future<void> main() async {
             "/settings": (context) => Settings(),
             "/changepassword": (context) => ChangePassword(),
             "/otpscreen": (context) => OTP_Screen(),
-            "/Test": (context) => Test(),
+            "/Test": (context) => LLM(),
             "/profile": (context) => profile(),
           },
           title: 'Quizard',

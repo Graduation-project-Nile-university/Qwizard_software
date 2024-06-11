@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/widgets/navigationBar/navigationBar.dart';
 
+String BASEURL = "http://192.168.1.6:8000";
+
 ThemeData themeData = ThemeData(primaryColor: Color.fromARGB(255, 141, 4, 141));
 
 extension ImageFromAsset on String {
@@ -28,7 +30,7 @@ AppBar quizardAppBar(BuildContext context) {
                 );
               },
               child: Image.asset(
-                'logo'.imageAssetPng(),
+                'quizard'.imageAssetPng(),
                 width: 100,
               ),
             ),

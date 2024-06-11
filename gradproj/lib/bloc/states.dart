@@ -2,4 +2,4 @@ abstract class States {}
 
 class InitialState extends States {}
 
-class test extends States {}
+class UpdateLoading extends States {}

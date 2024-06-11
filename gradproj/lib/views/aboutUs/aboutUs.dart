@@ -27,7 +27,8 @@ class aboutUs extends StatelessWidget {
               return PersonCard(
                 name: persons['person${index + 1}']!.entries.elementAt(0).value,
                 bio: persons['person${index + 1}']!.entries.elementAt(1).value,
-                imageloc: persons['person${index + 1}']!.entries.elementAt(2).value,
+                imageloc:
+                    persons['person${index + 1}']!.entries.elementAt(2).value,
               );
             },
           ),
@@ -36,8 +37,6 @@ class aboutUs extends StatelessWidget {
     );
   }
 }
-
-
 
 class PersonCard extends StatelessWidget {
   final String name;
@@ -59,7 +58,8 @@ class PersonCard extends StatelessWidget {
 
     return Card(
       margin: EdgeInsets.all(5),
-      child: SingleChildScrollView( // Wrapping with SingleChildScrollView
+      child: SingleChildScrollView(
+        // Wrapping with SingleChildScrollView
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -71,7 +71,7 @@ class PersonCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(imageloc),
+                  image: AssetImage(imageloc),
                 ),
               ),
             ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gradproj/views/Ai/Test.dart';
+import 'package:gradproj/views/Ai/LLM.dart';
 import 'package:gradproj/views/aboutUs/aboutUs.dart';
 import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/views/logIn/logIn.dart';
@@ -7,7 +7,7 @@ import 'package:gradproj/views/profile/profile.dart';
 import 'package:gradproj/views/signUp/signUp.dart';
 import 'package:gradproj/views/subscriptions/subscriptions.dart';
 import 'package:gradproj/widgets/navigationBar/Nbuttons.dart';
-import 'package:gradproj/views/Ai/Test.dart';
+import 'package:gradproj/views/Ai/LLM.dart';
 import 'package:gradproj/views/profile/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproj/bloc/cubit.dart';
@@ -35,7 +35,7 @@ class navigationBar extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => HomeView()),
                 );
               },
-              icon: Image.asset('assets/logo.png'),
+              icon: Image.asset('quizard'.imageAssetPng()),
             ),
             SizedBox(width: 20.0),
             Row(

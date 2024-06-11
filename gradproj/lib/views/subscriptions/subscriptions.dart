@@ -27,7 +27,7 @@ class subscriptions extends StatelessWidget {
                     );
                   },
                   child: Image.asset(
-                    'logo'.imageAssetPng(),
+                    'quizard'.imageAssetPng(),
                     width: 100,
                   ),
                 ),

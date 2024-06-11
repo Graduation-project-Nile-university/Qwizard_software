@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gradproj/bloc/states.dart';
+import 'package:gradproj/components/shared.dart';
 import 'package:gradproj/models/userModel.dart';
+import 'package:gradproj/views/Ai/components.dart';
 
 class QuizardCubit extends Cubit<States> {
   QuizardCubit() : super(InitialState());
-  final String BASEURL = "https://quizard-1-g7790211.deta.app";
   static String? USERTOKEN, USERNAME, USEREMAIL, PHONENUMBER;
 
   static AndroidOptions getAndroidOptions() => const AndroidOptions(
@@ -50,8 +53,6 @@ class AuthenticationCubit extends QuizardCubit {
   }
 
   Future<Response> logIn(User userdata) async {
-    print(userdata.password);
-
     var response = await Dio().post("$BASEURL/authentication/login",
         data: {
           "email": userdata.email,
@@ -60,8 +61,9 @@ class AuthenticationCubit extends QuizardCubit {
         options: Options(headers: {
           "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
         }));
-
+    print(response);
     if (response.statusCode == 200) {
+      print("here");
       QuizardCubit.USEREMAIL = userdata.email;
       QuizardCubit.USERNAME = response.data["user_data"]["username"];
       QuizardCubit.USERTOKEN = response.data["token"];
@@ -105,5 +107,44 @@ class AuthenticationCubit extends QuizardCubit {
       QuizardCubit.USERTOKEN = null;
     });
     print(await QuizardCubit.storage.containsKey(key: "token"));
+  }
+}
+
+class LLMModelCubit extends Cubit<States> {
+  LLMModelCubit() : super(InitialState());
+  static LLMModelCubit GET(BuildContext context) => BlocProvider.of(context);
+
+  Future<void> pickFile() async {
+    isLoading = true;
+    emit(UpdateLoading());
+
+    var result = await FilePicker.platform.pickFiles(
+      withData: true,
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+      allowMultiple: false,
+    );
+    if (result != null) {
+      pickedFileBytes = result;
+      isPicked = true;
+    }
+    isLoading = false;
+    emit(UpdateLoading());
+  }
+
+  Future<Response> generateQuizNow(
+      Uint8List pdfFileBytes, String fileName) async {
+    isGenerating = true;
+    emit(UpdateLoading());
+    var formData = FormData.fromMap({
+      'pdf': MultipartFile.fromBytes(pdfFileBytes, filename: fileName),
+    });
+    Response response = await Dio().post("$BASEURL/uploadpdf",
+        data: formData,
+        options: Options(headers: {'Content-Type': 'multipart/form-data'}));
+    isGenerating = false;
+    emit(UpdateLoading());
+
+    return response;
   }
 }
