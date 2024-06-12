@@ -83,6 +83,7 @@ async def preprocess_pdf_and_generate(response: Response, pdf: UploadFile = File
     except Exception as e:
         return e.args
     try:
+        ###################### CHANGE YOUR MODEL FROM HERE ###########################################
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_use_double_quant=True,
@@ -186,6 +187,7 @@ async def preprocess_pdf_and_generate(response: Response, pdf: UploadFile = File
         print("\nCorrected Exam:\n", format_exam(corrected_exam[0]))
 
         return format_exam(corrected_exam[0])
+    ################################## TO HERE ###########################################################
 
     except Exception as e:
         return e.args
@@ -228,6 +230,8 @@ async def preprocess_pdf_and_generate2(response: Response, pdf: UploadFile = Fil
         return e.args
     
     try:
+        ###################### CHANGE YOUR MODEL FROM HERE ###########################################
+
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_use_double_quant=True,
@@ -331,6 +335,7 @@ async def preprocess_pdf_and_generate2(response: Response, pdf: UploadFile = Fil
         print("\nCorrected Exam:\n", format_exam(corrected_exam[0]))
 
         return format_exam(corrected_exam[0])
+    ################################## TO HERE ###########################################################
 
     except Exception as e:
         return e.args
