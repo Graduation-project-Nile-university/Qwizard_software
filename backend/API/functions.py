@@ -53,11 +53,26 @@ class Functions:
         server.sendmail("Quizard", sendTo, message.as_string())
         return str(otp)
     
-    def convert_image_to_text(image_data:str):
-        processed_image_data = re.sub("(data:image/png;base64,\n)|(data:image/jpeg;base64,\n)|(data:image/jpg;base64,\n)","", image_data)
-        image_bytes = b64decode(processed_image_data)
-        image = PIL.Image.open(io.BytesIO(image_bytes))
-        genai.configure(api_key="AIzaSyC0X-qg7ln_KHwEI8nvKlm9mjNchQIDS6k")
-        model = genai.GenerativeModel("gemini-pro-vision")
-        description = model.generate_content(image).text
-        return description
+    def convert_image_to_text(images:list[str]):
+        try:
+            listOfimg = ["generate a description of all the following images please to make them an input to LLM models:"]
+            for i in images:
+                processed_image_data = re.sub("(data:image/png;base64,\n)|(data:image/jpeg;base64,\n)|(data:image/jpg;base64,\n)","", i)
+                image_bytes = b64decode(processed_image_data)
+                image = PIL.Image.open(io.BytesIO(image_bytes))
+                listOfimg.append(image)
+            print(listOfimg)
+            genai.configure(api_key="AIzaSyC0X-qg7ln_KHwEI8nvKlm9mjNchQIDS6k")
+            model = genai.GenerativeModel("gemini-1.5-flash")
+            description = model.generate_content(listOfimg,request_options={"timeout": 5000}).text
+            return description
+        except Exception as e:
+            return e
+    
+    def getNumOfGensOfPlan(plan:str):
+        if plan == "BASIC":
+            return 20
+        elif plan == "PRO" or plan == "Q-PRO":
+            return 1000
+        elif plan == "Q-BASIC":
+            return 100

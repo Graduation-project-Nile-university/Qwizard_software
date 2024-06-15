@@ -4,7 +4,6 @@ import 'package:gradproj/bloc/cubit.dart';
 import 'package:gradproj/bloc/states.dart';
 import 'package:gradproj/components/shared.dart';
 import 'package:gradproj/views/home/drwr.dart';
-import 'package:gradproj/widgets/navigationBar/navigationBar.dart';
 import 'package:gradproj/widgets/centeredView/centeredView.dart';
 import 'package:gradproj/widgets/homeBody/homeBody.dart';
 

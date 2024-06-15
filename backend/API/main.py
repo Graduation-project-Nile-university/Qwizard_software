@@ -3,9 +3,10 @@ from schemas import *
 from database import Database
 from authentication import authentication
 from model import qwizard_model
+from subscription import quizard_subscriptions
 import uvicorn
 
-app = FastAPI()
+app = FastAPI(namespace="quizard")
 
 @app.get("/")
 def welcome():
@@ -13,6 +14,7 @@ def welcome():
 
 app.include_router(authentication)
 app.include_router(qwizard_model)
+app.include_router(quizard_subscriptions)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)

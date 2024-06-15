@@ -16,16 +16,14 @@ class Database:
             print(error)
     def get_users(self):
         return self.database["Quizard"]['Users']
-    async def get_documents(self):
-        return self.database["Quizard"]['Documents']
-    async def get_history(self):
-        return self.database["Quizard"]['History']
+    def get_history(self, email:str):
+        return self.database["Quizard"][email]
 
     async def sign_up(self, userSignup: UserSignup) -> bool:
         userSignup.password = Functions.hashPassword(userSignup.password)
         try:
             self.database["Quizard"]["Users"].insert_one(userSignup.dict())
-            return Functions.getToken(userSignup.dict())
+            return {"data":userSignup.dict(), "token":Functions.getToken(userSignup.dict())}
         except Exception as e:
             raise Exception("Can't add user, try again later ")
     
@@ -61,5 +59,29 @@ class Database:
             return otp
         else:
             raise Exception("There is no user exists with this email")
+        
+    async def paymentSuccesseful(self, email:str, memberShipPlan:str):
+        try:
+            if self.is_email_exists(email):
+                data = self.get_users().update_one(filter={"email":email.strip()}, update={"$set":{"membershipPlan":memberShipPlan.strip(), "numOfGens":Functions.getNumOfGensOfPlan(memberShipPlan.strip())},})
+                return {"success":"Your upgrade was successful", "numOfGens":Functions.getNumOfGensOfPlan(memberShipPlan.strip())}
+            else:
+                raise Exception("Email not exists")
+        except Exception as e:
+            raise Exception(e.args)
+    
+    async def update_num_of_gens(self, email:str):
+        try:
+            self.get_users().update_one(filter={"email":email.strip()}, update={"$inc": {"numOfGens": -1}})
+            return True
+        except Exception as e:
+            print(e)
+            raise Exception(f"Something error: {e.args}")
+        
+    def add_to_history(self, exam:str, title:str, email:str):
+        try:
+            self.get_history(email).insert_one({"title":title, "exam":exam})
+        except Exception as e :
+            raise e
 
 database = Database() #initialize database

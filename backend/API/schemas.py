@@ -10,7 +10,9 @@ class User(BaseModel):
     email: str
     password: str
     phoneNumber: str = ""
-    membershipPlan: Membership = Membership.Basic.name
+    membershipPlan: str = "FREE"
+    numOfGens: int = 5
+
 
 class UserSignup(User):
     username: str

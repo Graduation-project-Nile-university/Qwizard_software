@@ -7,11 +7,6 @@ import 'package:gradproj/views/profile/profile.dart';
 import 'package:gradproj/views/signUp/signUp.dart';
 import 'package:gradproj/views/subscriptions/subscriptions.dart';
 import 'package:gradproj/widgets/navigationBar/Nbuttons.dart';
-import 'package:gradproj/views/Ai/LLM.dart';
-import 'package:gradproj/views/profile/profile.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gradproj/bloc/cubit.dart';
-import 'package:gradproj/bloc/states.dart';
 import 'package:gradproj/components/shared.dart';
 import 'package:gradproj/main.dart';
 
@@ -46,8 +41,8 @@ class navigationBar extends StatelessWidget {
                 ),
                 SizedBox(width: 10.0),
                 Nbuttons(
-                  text: 'Test',
-                  route: subscriptions(),
+                  text: 'Generate Exam',
+                  route: LLM(),
                 ),
                 SizedBox(width: 10.0),
                 Nbuttons(

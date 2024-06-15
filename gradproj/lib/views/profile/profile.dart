@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradproj/components/shared.dart';
 import 'package:gradproj/views/profile/profileEdit.dart';
 import 'package:gradproj/widgets/centeredView/centeredView.dart';
 import 'package:gradproj/views/home/drwr.dart';

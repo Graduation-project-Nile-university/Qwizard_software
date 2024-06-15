@@ -9,8 +9,8 @@ authentication = APIRouter()
 async def signUp(response: Response, userSignupData: UserSignup):
     if Functions.isPasswordStrong(userSignupData.password):
         try:
-            token = await database.sign_up(userSignupData)
-            return {"token":token}
+            data = await database.sign_up(userSignupData)
+            return {"token":data["token"], "userData":data["data"]}
         except Exception as e:
             response.status_code = status.HTTP_403_FORBIDDEN
             return {"failure":e.args}

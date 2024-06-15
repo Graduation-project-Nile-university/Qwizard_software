@@ -5,6 +5,7 @@ import 'package:gradproj/bloc/cubit.dart';
 import 'package:gradproj/bloc/states.dart';
 import 'package:gradproj/components/shared.dart';
 import 'package:gradproj/models/userModel.dart';
+import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/views/logIn/logIn.dart';
 
 class signUp extends StatefulWidget {
@@ -28,6 +29,21 @@ class _signUpState extends State<signUp> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        toolbarHeight: 100,
+        title: Center(
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeView()),
+              );
+            },
+            child: Image.asset(
+              'quizard'.imageAssetPng(),
+              width: 100,
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

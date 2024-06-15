@@ -15,27 +15,8 @@ class subscriptions extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        title: screenWidth > 800
-            ? navigationBar()
-            : Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
-                    );
-                  },
-                  child: Image.asset(
-                    'quizard'.imageAssetPng(),
-                    width: 100,
-                  ),
-                ),
-              ),
-        backgroundColor: Color.fromARGB(255, 141, 4, 141),
-        toolbarHeight: 110,
-      ),
-      drawer: screenWidth < 750 ? Drwr() : null,
+      appBar: quizardAppBar(context),
+      drawer: screenWidth < 800 ? Drwr() : null,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(

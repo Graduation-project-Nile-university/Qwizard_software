@@ -90,8 +90,97 @@ class Drwr extends StatelessWidget {
                       const Text('  Generate Exams'),
                     ],
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(context, "/Test");
+                  onTap: () async {
+                    if (!await isSignedIn()) {
+                      showBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(25)),
+                                color: themeData.primaryColor,
+                              ),
+                              padding: EdgeInsets.all(20),
+                              height: 300,
+                              width: MediaQuery.sizeOf(context).width / 1.1,
+                              child: Column(
+                                children: [
+                                  IconButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                      )),
+                                  Text(
+                                    "Please Create an account at the first to start generating exams",
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          width: double.infinity,
+                                          height: 46,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                  context, "/signup");
+                                            },
+                                            child: Text(
+                                              "Sign Up",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        themeData
+                                                            .primaryColor)),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          height: 46,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                  context, "/login");
+                                            },
+                                            child: Text(
+                                              "Log In",
+                                              style: TextStyle(
+                                                  color:
+                                                      themeData.primaryColor),
+                                            ),
+                                            style: ButtonStyle(
+                                                shape: MaterialStatePropertyAll(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                        side: BorderSide(
+                                                            width: 3,
+                                                            color: themeData
+                                                                .primaryColor))),
+                                                backgroundColor:
+                                                    MaterialStatePropertyAll(
+                                                        Colors.white)),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          });
+                    } else {
+                      Navigator.pushNamed(context, "/Test");
+                    }
                   },
                 ),
                 FutureBuilder(
