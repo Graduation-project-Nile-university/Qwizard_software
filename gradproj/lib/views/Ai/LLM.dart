@@ -89,7 +89,7 @@ class LLM extends StatelessWidget {
                               padding: EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black12,
@@ -263,7 +263,12 @@ class LLM extends StatelessWidget {
                                                       ),
                                                     ),
                                                     child: Text(
-                                                      'Generate',
+                                                      isGenerated &&
+                                                              response!
+                                                                      .statusCode ==
+                                                                  200
+                                                          ? "Generate Again"
+                                                          : 'Generate',
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           color: Colors.white),
@@ -271,7 +276,7 @@ class LLM extends StatelessWidget {
                                                   ),
                                                 ),
                                           SizedBox(
-                                            height: 30,
+                                            height: 20,
                                           ),
                                           isGenerated &&
                                                   response!.statusCode == 200
@@ -279,43 +284,124 @@ class LLM extends StatelessWidget {
                                                   width: double.infinity,
                                                   margin: EdgeInsets.symmetric(
                                                       horizontal: 20),
-                                                  child: ElevatedButton(
-                                                    onPressed: () async {
-                                                      // Implement downloading functionality
-                                                      await LLMModelCubit.GET(
-                                                              context)
-                                                          .downloadPDF(
-                                                              response!.data,
-                                                              pickedFileBytes!
-                                                                  .files
-                                                                  .first
-                                                                  .name)
-                                                          .then((onValue) =>
-                                                              Navigator
-                                                                  .pushNamed(
-                                                                      context,
-                                                                      "/home"));
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor: themeData
-                                                          .primaryColor,
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 16),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: double.infinity,
+                                                        child: ElevatedButton(
+                                                          onPressed: () async {
+                                                            // Implement viewing exam functionality
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) =>
+                                                                        Scaffold(
+                                                                          backgroundColor:
+                                                                              Colors.transparent,
+                                                                          body:
+                                                                              Center(
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10),
+                                                                              width: MediaQuery.sizeOf(context).width / 1.2,
+                                                                              height: MediaQuery.sizeOf(context).height / 1.4,
+                                                                              decoration: BoxDecoration(color: Colors.white, border: Border.all(width: 4, color: themeData.primaryColor), borderRadius: BorderRadius.circular(20)),
+                                                                              child: SingleChildScrollView(
+                                                                                child: Column(
+                                                                                  children: [
+                                                                                    Text("${response!.data}"),
+                                                                                    SizedBox(
+                                                                                      height: 20,
+                                                                                    ),
+                                                                                    TextButton(
+                                                                                        onPressed: () {
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                        child: Text("Exit View Of Exam"))
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ));
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                themeData
+                                                                    .primaryColor,
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    vertical:
+                                                                        16),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                          ),
+                                                          child: Text(
+                                                            'View Exam',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    child: Text(
-                                                      'Download Now',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: Colors.white),
-                                                    ),
+                                                      SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      SizedBox(
+                                                        width: double.infinity,
+                                                        child: ElevatedButton(
+                                                          onPressed: () async {
+                                                            // Implement downloading functionality
+                                                            await LLMModelCubit
+                                                                    .GET(
+                                                                        context)
+                                                                .downloadPDF(
+                                                                    response!
+                                                                        .data,
+                                                                    pickedFileBytes!
+                                                                        .files
+                                                                        .first
+                                                                        .name)
+                                                                .then((onValue) =>
+                                                                    Navigator.pushNamed(
+                                                                        context,
+                                                                        "/home"));
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                themeData
+                                                                    .primaryColor,
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    vertical:
+                                                                        16),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                          ),
+                                                          child: Text(
+                                                            'Download Now',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 )
                                               : SizedBox()
@@ -345,8 +431,61 @@ class LLM extends StatelessWidget {
                                           if (snapshot.hasData) {
                                             return ListView.separated(
                                                 itemBuilder: (context, index) {
-                                                  return Text(
-                                                      "${snapshot.data.data[index]["title"]}");
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder:
+                                                              (context) =>
+                                                                  Scaffold(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    body:
+                                                                        Center(
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(10),
+                                                                        width: MediaQuery.sizeOf(context).width /
+                                                                            1.2,
+                                                                        height: MediaQuery.sizeOf(context).height /
+                                                                            1.4,
+                                                                        decoration: BoxDecoration(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            border: Border.all(width: 4, color: themeData.primaryColor),
+                                                                            borderRadius: BorderRadius.circular(20)),
+                                                                        child:
+                                                                            SingleChildScrollView(
+                                                                          child:
+                                                                              Column(
+                                                                            children: [
+                                                                              Text("${snapshot.data.data[index]["exam"]}"),
+                                                                              SizedBox(
+                                                                                height: 20,
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                children: [
+                                                                                  TextButton(
+                                                                                      onPressed: () {
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                      child: Text("Exit View Of Exam")),
+                                                                                  IconButton(onPressed: () {}, icon: Icon(Icons.download))
+                                                                                ],
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ));
+                                                    },
+                                                    child: Text(
+                                                        "${snapshot.data.data[index]["title"]}"),
+                                                  );
                                                 },
                                                 separatorBuilder:
                                                     (context, index) =>

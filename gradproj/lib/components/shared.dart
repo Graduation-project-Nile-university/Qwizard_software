@@ -20,7 +20,6 @@ extension ImageFromAsset on String {
 }
 
 AppBar quizardAppBar(BuildContext context) {
-  print(QuizardCubit.USERTOKEN);
   var screenWidth = MediaQuery.of(context).size.width;
   return AppBar(
     actions: [

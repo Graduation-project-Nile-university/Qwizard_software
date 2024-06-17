@@ -6,7 +6,7 @@ from model import qwizard_model
 from subscription import quizard_subscriptions
 import uvicorn
 
-app = FastAPI(namespace="quizard")
+app = FastAPI(namespace="quizard") #a0g35pBKQUVW
 
 @app.get("/")
 def welcome():

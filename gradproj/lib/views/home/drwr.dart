@@ -70,20 +70,6 @@ class Drwr extends StatelessWidget {
                   title: Row(
                     children: [
                       Icon(
-                        Icons.settings,
-                        color: themeData.primaryColor,
-                      ),
-                      const Text('  Settings'),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(context, "/settings");
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Icon(
                         Icons.generating_tokens,
                         color: themeData.primaryColor,
                       ),

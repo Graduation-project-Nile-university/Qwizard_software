@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:js_interop';
-
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -79,14 +77,13 @@ class AuthenticationCubit extends QuizardCubit {
   }
 
   Future<Response> logIn(User userdata) async {
-    var response = await Dio().post("$BASEURL/authentication/login",
-        data: {
-          "email": userdata.email,
-          "password": userdata.password,
-        },
-        options: Options(headers: {
-          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
-        }));
+    var response = await Dio().post(
+      "$BASEURL/authentication/login",
+      data: {
+        "email": userdata.email,
+        "password": userdata.password,
+      },
+    );
     print(response);
     if (response.statusCode == 200) {
       QuizardCubit.USEREMAIL = userdata.email;
@@ -195,7 +192,10 @@ class LLMModelCubit extends Cubit<States> {
     });
     Response res = await Dio().post("$BASEURL/generateExam2",
         data: formData,
-        options: Options(headers: {'Content-Type': 'multipart/form-data'}));
+        options: Options(headers: {
+          'Content-Type': 'multipart/form-data',
+          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
+        }));
     if (res.statusCode == 200) isGenerated = true;
     response = res;
 
@@ -219,7 +219,10 @@ class LLMModelCubit extends Cubit<States> {
               "text": exam,
               "title": title,
             },
-            options: Options(headers: {"email": QuizardCubit.USEREMAIL}))
+            options: Options(headers: {
+              "email": QuizardCubit.USEREMAIL,
+              "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
+            }))
         .then((onValue) async {
       QuizardCubit.NUMBEROFGENS -= 1;
       window.localStorage["numOfGens"] = QuizardCubit.NUMBEROFGENS.toString();
@@ -256,8 +259,11 @@ class LLMModelCubit extends Cubit<States> {
   }
 
   Future get UserHistory async {
-    Response response =
-        await Dio().get("$BASEURL/${QuizardCubit.USEREMAIL}/getUserHistory");
+    Response response = await Dio().get(
+        "$BASEURL/${QuizardCubit.USEREMAIL}/getUserHistory",
+        options: Options(headers: {
+          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
+        }));
     return response;
   }
 }
@@ -332,6 +338,9 @@ class SubscriptionCubit extends Cubit<States> {
   Future successPayment(bool isSuccess, String email, String plan) async {
     if (isSuccess) {
       Response response = await Dio().post("$BASEURL/successPayment",
+          options: Options(headers: {
+            "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
+          }),
           data: {"email": email, "plan": plan});
       if (response.statusCode == 200) {
         window.localStorage["myPlan"] = plan.trim();
