@@ -4,7 +4,7 @@ import 'package:gradproj/views/home/HomeView.dart';
 import 'package:gradproj/widgets/navigationBar/navigationBar.dart';
 import 'package:lottie/lottie.dart';
 
-String BASEURL = "http://192.168.1.6:8000";
+String BASEURL = "https://8000-01j0ns51x6tbsmj0f7r2m82d5s.cloudspaces.litng.ai";
 Uri? navigatedURL;
 
 ThemeData themeData = ThemeData(primaryColor: Color.fromARGB(255, 141, 4, 141));

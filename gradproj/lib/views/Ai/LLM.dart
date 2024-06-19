@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_web_file_selector/flutter_web_file_selector.dart';
 import 'package:gradproj/bloc/cubit.dart';
 import 'package:gradproj/bloc/states.dart';
 import 'package:gradproj/components/shared.dart';
@@ -47,6 +49,7 @@ class LLM extends StatelessWidget {
                   children: [
                     MediaQuery.sizeOf(context).width > 800
                         ? Expanded(
+                            flex: 2,
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 20),
                               padding: EdgeInsets.all(20),
@@ -60,8 +63,78 @@ class LLM extends StatelessWidget {
                                     if (snapshot.hasData) {
                                       return ListView.separated(
                                           itemBuilder: (context, index) {
-                                            return Text(
-                                                "${snapshot.data.data[index]["title"]}");
+                                            return InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (context) => Scaffold(
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              body: Center(
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              10),
+                                                                  width: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .width /
+                                                                      1.2,
+                                                                  height: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .height /
+                                                                      1.4,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      border: Border.all(
+                                                                          width:
+                                                                              4,
+                                                                          color: themeData
+                                                                              .primaryColor),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20)),
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Text(
+                                                                            "${snapshot.data.data[index]["exam"]}"),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              20,
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceAround,
+                                                                          children: [
+                                                                            TextButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                child: Text("Exit View Of Exam")),
+                                                                            IconButton(
+                                                                                onPressed: () {
+                                                                                  LLMModelCubit.GET(context).downloadPDF(snapshot.data.data[index]["exam"], snapshot.data.data[index]["title"], false);
+                                                                                },
+                                                                                icon: Icon(Icons.download))
+                                                                          ],
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ));
+                                              },
+                                              child: Text(
+                                                  "${snapshot.data.data[index]["title"]}"),
+                                            );
                                           },
                                           separatorBuilder: (context, index) =>
                                               SizedBox(
@@ -75,57 +148,51 @@ class LLM extends StatelessWidget {
                                   }),
                             ),
                           )
-                        : SizedBox(
-                            width: 0.000001,
-                          ),
+                        : SizedBox(),
                     Expanded(
                       flex: 3,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 6,
-                                    offset: Offset(0, 2),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: WebFileSelector(
+                                multiple: false,
+                                accept: ".pdf",
+                                onData: (f) {
+                                  pickedFileBytes = f.first;
+                                  isPicked = true;
+                                  isGenerated = false;
+                                  LLMModelCubit.GET(context)
+                                      .emit(UpdateLoading());
+                                  print(pickedFileBytes!.name);
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: EdgeInsets.all(16),
+                                  child: Center(
+                                    child: Text(
+                                      "Press to pick your PDF",
+                                      style: TextStyle(
+                                          color: themeData.primaryColor,
+                                          fontSize: 20),
+                                    ),
                                   ),
-                                ],
-                              ),
-                              child: Center(
-                                child: isLoading
-                                    ? CircularProgressIndicator()
-                                    : ElevatedButton(
-                                        onPressed: () async {
-                                          await LLMModelCubit.GET(context)
-                                              .pickFile()
-                                              .then((onValue) {
-                                            print(pickedFileBytes!
-                                                .files.first.name);
-                                          });
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                color: themeData.primaryColor,
-                                                width: 3),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          'Pick PDF File',
-                                          style: TextStyle(
-                                              color: themeData.primaryColor),
-                                        ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        blurRadius: 6,
+                                        offset: Offset(0, 2),
                                       ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -154,17 +221,10 @@ class LLM extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'File Name: ${pickedFileBytes!.files.first.name}',
+                                            'File Name: ${pickedFileBytes!.name}',
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(height: 10),
-                                          Text(
-                                            'File Size: ${(pickedFileBytes!.files.first.size / 1024).toStringAsFixed(2)} KB',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.grey[700]),
                                           ),
                                           SizedBox(height: 20),
                                           Text('Select Question Types:',
@@ -228,53 +288,66 @@ class LLM extends StatelessWidget {
                                               ? Center(
                                                   child:
                                                       CircularProgressIndicator())
-                                              : Container(
-                                                  width: double.infinity,
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 20),
-                                                  child: ElevatedButton(
-                                                    onPressed: () async {
-                                                      // Implement generate functionality
-                                                      await LLMModelCubit.GET(
-                                                              context)
-                                                          .generateQuizNow(
-                                                              pickedFileBytes!
-                                                                      .files
-                                                                      .first
-                                                                      .bytes
-                                                                  as Uint8List,
-                                                              pickedFileBytes!
-                                                                  .files
-                                                                  .first
-                                                                  .name);
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor: themeData
-                                                          .primaryColor,
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 16),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                    ),
-                                                    child: Text(
-                                                      isGenerated &&
-                                                              response!
-                                                                      .statusCode ==
-                                                                  200
-                                                          ? "Generate Again"
-                                                          : 'Generate',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
-                                                ),
+                                              : FutureBuilder(
+                                                  future: pickedFileBytes!
+                                                      .readAsBytes(),
+                                                  builder: (cotext, ss) {
+                                                    if (ss.hasData) {
+                                                      return Container(
+                                                          width:
+                                                              double.infinity,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      20),
+                                                          child: ElevatedButton(
+                                                            onPressed:
+                                                                () async {
+                                                              // Implement generate functionality
+                                                              await LLMModelCubit
+                                                                      .GET(
+                                                                          context)
+                                                                  .generateQuizNow(
+                                                                      ss.data
+                                                                          as Uint8List,
+                                                                      pickedFileBytes!
+                                                                          .name);
+                                                            },
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  themeData
+                                                                      .primaryColor,
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          16),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                            ),
+                                                            child: Text(
+                                                              isGenerated &&
+                                                                      response!
+                                                                              .statusCode ==
+                                                                          200
+                                                                  ? "Generate Again"
+                                                                  : 'Generate',
+                                                              style: TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ));
+                                                    } else {
+                                                      return Text("loading");
+                                                    }
+                                                  }),
                                           SizedBox(
                                             height: 20,
                                           ),
@@ -367,9 +440,8 @@ class LLM extends StatelessWidget {
                                                                     response!
                                                                         .data,
                                                                     pickedFileBytes!
-                                                                        .files
-                                                                        .first
-                                                                        .name)
+                                                                        .name,
+                                                                    true)
                                                                 .then((onValue) =>
                                                                     Navigator.pushNamed(
                                                                         context,
@@ -473,7 +545,11 @@ class LLM extends StatelessWidget {
                                                                                         Navigator.pop(context);
                                                                                       },
                                                                                       child: Text("Exit View Of Exam")),
-                                                                                  IconButton(onPressed: () {}, icon: Icon(Icons.download))
+                                                                                  IconButton(
+                                                                                      onPressed: () {
+                                                                                        LLMModelCubit.GET(context).downloadPDF(snapshot.data.data[index]["exam"], snapshot.data.data[index]["title"], false);
+                                                                                      },
+                                                                                      icon: Icon(Icons.download))
                                                                                 ],
                                                                               )
                                                                             ],

@@ -5,8 +5,16 @@ from authentication import authentication
 from model import qwizard_model
 from subscription import quizard_subscriptions
 import uvicorn
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI(namespace="quizard") #a0g35pBKQUVW
+app.add_middleware(
+    CORSMiddleware,
+    allow_headers=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_origins=["*"]
+)
 
 @app.get("/")
 def welcome():

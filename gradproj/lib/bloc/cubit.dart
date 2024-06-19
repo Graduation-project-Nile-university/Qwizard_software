@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as ss;
+import 'package:flutter_web_file_selector/flutter_web_file_selector.dart';
 import 'package:gradproj/bloc/states.dart';
 import 'package:gradproj/components/shared.dart';
 import 'package:gradproj/models/userModel.dart';
@@ -30,17 +31,15 @@ class AuthenticationCubit extends QuizardCubit {
       BlocProvider.of(context);
 
   Future<Response> signUp(User userdata) async {
-    print(userdata.password);
-    var response = await Dio().post("$BASEURL/authentication/signup",
-        data: {
-          "email": userdata.email,
-          "password": userdata.password,
-          "username": userdata.username,
-          "phoneNumber": userdata.phoneNumber
-        },
-        options: Options(headers: {
-          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
-        }));
+    var response = await Dio().post(
+      "$BASEURL/authentication/signup",
+      data: {
+        "email": userdata.email,
+        "password": userdata.password,
+        "username": userdata.username,
+        "phoneNumber": userdata.phoneNumber
+      },
+    );
     print(response.data);
     if (response.statusCode == 200) {
       QuizardCubit.USEREMAIL = userdata.email;
@@ -121,23 +120,21 @@ class AuthenticationCubit extends QuizardCubit {
   }
 
   Future<Response> forgetPassword(String email) async {
-    var response = await Dio().post("$BASEURL/authentication/forgetPassword",
-        data: {
-          "email": email,
-        },
-        options: Options(headers: {
-          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
-        }));
+    var response = await Dio().post(
+      "$BASEURL/authentication/forgetPassword",
+      data: {
+        "email": email,
+      },
+    );
 
     return response;
   }
 
   Future<Response> changePasssword(String email, String newPassword) async {
-    var response = await Dio().post("$BASEURL/authentication/changePassword",
-        data: {"email": email, "new_password": newPassword},
-        options: Options(headers: {
-          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
-        }));
+    var response = await Dio().post(
+      "$BASEURL/authentication/changePassword",
+      data: {"email": email, "new_password": newPassword},
+    );
     return response;
   }
 
@@ -174,7 +171,7 @@ class LLMModelCubit extends Cubit<States> {
     );
 
     if (result != null) {
-      pickedFileBytes = result;
+      pickedFileBytes = result as XFile;
       isPicked = true;
       isGenerated = false;
     }
@@ -194,7 +191,6 @@ class LLMModelCubit extends Cubit<States> {
         data: formData,
         options: Options(headers: {
           'Content-Type': 'multipart/form-data',
-          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
         }));
     if (res.statusCode == 200) isGenerated = true;
     response = res;
@@ -205,29 +201,57 @@ class LLMModelCubit extends Cubit<States> {
     return res;
   }
 
-  Future downloadPDF(String exam, String title) async {
+  Future downloadPDF(String exam, String title, bool decreaseGens) async {
     exam = exam.replaceAll(RegExp(r'[^A-Za-z0-9().,;:?]'), ' ');
     print(exam);
     var pdf = pw.Document();
     var image = await rootBundle.load("quizard".imageAssetPng());
     var assetImageBytes = image.buffer.asUint8List();
-
-    await Dio()
-        .post("$BASEURL/updateNumOfGens",
-            data: {
-              "email": QuizardCubit.USEREMAIL,
-              "text": exam,
-              "title": title,
-            },
-            options: Options(headers: {
-              "email": QuizardCubit.USEREMAIL,
-              "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
-            }))
-        .then((onValue) async {
-      QuizardCubit.NUMBEROFGENS -= 1;
-      window.localStorage["numOfGens"] = QuizardCubit.NUMBEROFGENS.toString();
-      QuizardCubit.storage
-          .write(key: "numOfGens", value: QuizardCubit.NUMBEROFGENS.toString());
+    if (decreaseGens) {
+      await Dio()
+          .post("$BASEURL/updateNumOfGens",
+              data: {
+                "email": QuizardCubit.USEREMAIL,
+                "text": exam,
+                "title": title,
+              },
+              options: Options(headers: {
+                "email": QuizardCubit.USEREMAIL,
+              }))
+          .then((onValue) async {
+        QuizardCubit.NUMBEROFGENS -= 1;
+        window.localStorage["numOfGens"] = QuizardCubit.NUMBEROFGENS.toString();
+        QuizardCubit.storage.write(
+            key: "numOfGens", value: QuizardCubit.NUMBEROFGENS.toString());
+        pdf.addPage(pw.Page(
+            pageFormat: PdfPageFormat.a4,
+            build: (context) {
+              return pw.Column(
+                children: [
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                      children: [
+                        pw.Image(pw.MemoryImage(assetImageBytes), width: 100),
+                        pw.Text("Generated Exam"),
+                        pw.SizedBox()
+                      ]),
+                  pw.Divider(),
+                  pw.Center(child: pw.Text("""$exam"""))
+                ],
+              );
+            }));
+        var savedFile = await pdf.save();
+        List<int> fileInts = List.from(savedFile);
+        AnchorElement(
+            href:
+                "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(fileInts)}")
+          ..setAttribute(
+              "download", "${DateTime.now().millisecondsSinceEpoch}.pdf")
+          ..click();
+      }).catchError((onError) {
+        print(onError);
+      });
+    } else {
       pdf.addPage(pw.Page(
           pageFormat: PdfPageFormat.a4,
           build: (context) {
@@ -253,17 +277,13 @@ class LLMModelCubit extends Cubit<States> {
         ..setAttribute(
             "download", "${DateTime.now().millisecondsSinceEpoch}.pdf")
         ..click();
-    }).catchError((onError) {
-      print(onError);
-    });
+    }
   }
 
   Future get UserHistory async {
     Response response = await Dio().get(
-        "$BASEURL/${QuizardCubit.USEREMAIL}/getUserHistory",
-        options: Options(headers: {
-          "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
-        }));
+      "$BASEURL/${QuizardCubit.USEREMAIL}/getUserHistory",
+    );
     return response;
   }
 }
@@ -338,9 +358,6 @@ class SubscriptionCubit extends Cubit<States> {
   Future successPayment(bool isSuccess, String email, String plan) async {
     if (isSuccess) {
       Response response = await Dio().post("$BASEURL/successPayment",
-          options: Options(headers: {
-            "X-API-Key": "a0KGjop74nos_4KVRhNwV4dod4cv3C7C83Q32bDXNhsAA"
-          }),
           data: {"email": email, "plan": plan});
       if (response.statusCode == 200) {
         window.localStorage["myPlan"] = plan.trim();
