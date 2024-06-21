@@ -17,6 +17,7 @@ import 'package:gradproj/views/subscriptions/subscriptions.dart';
 import 'package:gradproj/views/subscriptions/successedPayment.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+//jdksm
 Future<void> main() async {
   navigatedURL = Uri.base;
   WidgetsFlutterBinding.ensureInitialized();
