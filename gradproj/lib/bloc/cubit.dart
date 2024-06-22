@@ -13,8 +13,6 @@ import 'package:gradproj/views/Ai/components.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 import "dart:html";
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 class QuizardCubit extends Cubit<States> {
   QuizardCubit() : super(InitialState());

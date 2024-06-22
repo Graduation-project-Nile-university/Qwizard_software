@@ -1,3 +1,5 @@
+from email import encoders
+from email.mime.base import MIMEBase
 import re
 import jwt
 from passlib.context import CryptContext
@@ -9,6 +11,7 @@ from base64 import b64decode
 import PIL.Image, io
 import re
 import google.generativeai as genai
+import FPDF
 
 context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -76,3 +79,40 @@ class Functions:
             return 1000
         elif plan == "Q-BASIC":
             return 100
+        
+    def create_pdf(file_name, title, content):
+        pdf = FPDF()
+        pdf.add_page()
+
+        pdf.set_font("Arial", size=12)
+        pdf.cell(200, 10, txt=title, ln=True, align='C')
+
+        pdf.set_font("Arial", size=10)
+        pdf.multi_cell(0, 10, txt=content)
+        
+        pdf.output(file_name)
+
+    def send_email_with_pdf(sendTo, pdf_file_name):
+        message = MIMEMultipart()
+        message.add_header("From", "Quizard <quizard2024@gmail.com>")
+        message.add_header("To", sendTo)
+        message.add_header("Subject", "Your Generated Exam")
+
+        body = "Hello,\n\nPlease find attached your generated exam.\n\nBest regards,\nQuizard Team"
+        message.attach(MIMEText(body, 'plain'))
+
+        with open(pdf_file_name, "rb") as attachment:
+            part = MIMEBase("application", "octet-stream")
+            part.set_payload(attachment.read())
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f"attachment; filename= {pdf_file_name}",
+            )
+            message.attach(part)
+
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        server.ehlo()
+        server.login("quizard2024@gmail.com", "cbqljpkciohdbzne")
+        server.sendmail("quizard2024@gmail.com", sendTo, message.as_string())
+        server.quit()
