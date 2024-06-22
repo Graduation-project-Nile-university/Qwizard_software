@@ -1,3 +1,4 @@
+from schemas import History
 from functions import Functions
 from fastapi import APIRouter, Body, status, Response, FastAPI, UploadFile, File, Request
 from bs4 import BeautifulSoup
@@ -49,12 +50,11 @@ qwizard_model = APIRouter()
 
 
 @qwizard_model.post("/updateNumOfGens")
-async def update_num_of_gens(response: Response,token:Request, data:dict=Body(...)):
+async def update_num_of_gens(response: Response,token:Request, data:History):
     try:
-        
         email = token.headers["email"]
-        await database.update_num_of_gens(data["email"])
-        database.add_to_history(data["text"], data["title"], email)
+        await database.update_num_of_gens(email)
+        database.add_to_history(data, email)
         return {"success":"Updated successfully"}
     except Exception as e:
         print(e.args)

@@ -202,18 +202,14 @@ class LLMModelCubit extends Cubit<States> {
   }
 
   Future downloadPDF(String exam, String title, bool decreaseGens) async {
-    exam = exam.replaceAll(RegExp(r'[^A-Za-z0-9().,;:?]'), ' ');
-    print(exam);
-    var pdf = pw.Document();
-    var image = await rootBundle.load("quizard".imageAssetPng());
-    var assetImageBytes = image.buffer.asUint8List();
     if (decreaseGens) {
       await Dio()
           .post("$BASEURL/updateNumOfGens",
               data: {
-                "email": QuizardCubit.USEREMAIL,
-                "text": exam,
+                "exam": exam,
                 "title": title,
+                "generatedScore": 1,
+                "humanScore": 1
               },
               options: Options(headers: {
                 "email": QuizardCubit.USEREMAIL,
@@ -223,60 +219,7 @@ class LLMModelCubit extends Cubit<States> {
         window.localStorage["numOfGens"] = QuizardCubit.NUMBEROFGENS.toString();
         QuizardCubit.storage.write(
             key: "numOfGens", value: QuizardCubit.NUMBEROFGENS.toString());
-        pdf.addPage(pw.Page(
-            pageFormat: PdfPageFormat.a4,
-            build: (context) {
-              return pw.Column(
-                children: [
-                  pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Image(pw.MemoryImage(assetImageBytes), width: 100),
-                        pw.Text("Generated Exam"),
-                        pw.SizedBox()
-                      ]),
-                  pw.Divider(),
-                  pw.Center(child: pw.Text("""$exam"""))
-                ],
-              );
-            }));
-        var savedFile = await pdf.save();
-        List<int> fileInts = List.from(savedFile);
-        AnchorElement(
-            href:
-                "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(fileInts)}")
-          ..setAttribute(
-              "download", "${DateTime.now().millisecondsSinceEpoch}.pdf")
-          ..click();
-      }).catchError((onError) {
-        print(onError);
       });
-    } else {
-      pdf.addPage(pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (context) {
-            return pw.Column(
-              children: [
-                pw.Row(
-                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                    children: [
-                      pw.Image(pw.MemoryImage(assetImageBytes), width: 100),
-                      pw.Text("Generated Exam"),
-                      pw.SizedBox()
-                    ]),
-                pw.Divider(),
-                pw.Center(child: pw.Text("""$exam"""))
-              ],
-            );
-          }));
-      var savedFile = await pdf.save();
-      List<int> fileInts = List.from(savedFile);
-      AnchorElement(
-          href:
-              "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(fileInts)}")
-        ..setAttribute(
-            "download", "${DateTime.now().millisecondsSinceEpoch}.pdf")
-        ..click();
     }
   }
 

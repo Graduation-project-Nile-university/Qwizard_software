@@ -1,11 +1,6 @@
 from pydantic import BaseModel
 from enum import Enum
 
-class Membership(Enum):
-    Basic = 1
-    Premium = 2
-    Gold = 3
-
 class User(BaseModel):
     email: str
     password: str
@@ -16,3 +11,9 @@ class User(BaseModel):
 
 class UserSignup(User):
     username: str
+
+class History(BaseModel):
+    exam: str
+    title: str
+    generatedScore: int
+    humanScore: int

@@ -2,7 +2,7 @@ import pymongo.collection
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from functions import Functions
-from schemas import UserSignup, User
+from schemas import History, UserSignup, User
 import pymongo
 import asyncio
 
@@ -78,9 +78,9 @@ class Database:
             print(e)
             raise Exception(f"Something error: {e.args}")
         
-    def add_to_history(self, exam:str, title:str, email:str):
+    def add_to_history(self, history:History ,email:str):
         try:
-            self.get_history(email).insert_one({"title":title, "exam":exam})
+            self.get_history(email).insert_one(history.dict())
         except Exception as e :
             raise e
 
