@@ -13,6 +13,47 @@ import google.generativeai as genai
 context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class Functions:
+    def create_pdf(file_name, title, content):
+        pdf = FPDF()
+        pdf.add_page()
+
+        pdf.set_font("Arial", size=12)
+        pdf.cell(200, 10, txt=title, ln=True, align='C')
+
+        pdf.set_font("Arial", size=10)
+        pdf.multi_cell(0, 10, txt=content)
+        
+        pdf.output(file_name)
+
+    def send_email_with_pdf(sendTo, pdf_file_name):
+        message = MIMEMultipart()
+        message.add_header("From", "Quizard <quizard2024@gmail.com>")
+        message.add_header("To", sendTo)
+        message.add_header("Subject", "Your Generated Exam")
+
+        body = "Hello,\n\nPlease find attached your generated exam.\n\nBest regards,\nQuizard Team"
+        message.attach(MIMEText(body, 'plain'))
+
+        # Attach PDF
+        with open(pdf_file_name, "rb") as attachment:
+            part = MIMEBase("application", "octet-stream")
+            part.set_payload(attachment.read())
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f"attachment; filename= {pdf_file_name}",
+            )
+            message.attach(part)
+
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        server.ehlo()
+        server.login("quizard2024@gmail.com", "cbqljpkciohdbzne")
+        server.sendmail("quizard2024@gmail.com", sendTo, message.as_string())
+        server.quit()
+
+
+
+
     def isPasswordStrong(password:str)->bool:
         if password.__len__() > 8 and re.fullmatch(r".*[0-9a-zA-Z]", password):
             return True

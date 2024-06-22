@@ -47,6 +47,20 @@ from database import database
 
 qwizard_model = APIRouter()
 
+@qwizard_model.post("/download_exam")
+def downloadExam(response:Response, data: dict=Body(...)):
+    try:
+        exam = data["exam"]
+        email = data["email"]
+        current_time_millis = int(time.time() * 1000)
+        pdf_file_name = f"{email}_{current_time_millis}.pdf"
+        Functions.createPDF(pdf_file_name, "Generated Exam", exam)
+        Functions.sendExam(email, pdf_file_name)
+        
+    except Exception as e:
+        response.status_code = status.HTTP_403_FORBIDDEN
+        return {"failure": "failed"}
+
 
 @qwizard_model.post("/updateNumOfGens")
 async def update_num_of_gens(response: Response,token:Request, data:dict=Body(...)):
